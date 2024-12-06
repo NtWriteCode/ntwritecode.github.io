@@ -29,7 +29,7 @@ Interestingly, our OSINT research indicated that the C2 IP address was previousl
 
 The initial malware sample had a valid digital signature by the time we first analyzed it (November 9th, 2024), issued by a Chinese company `Taigu Fulong Electronic Tech Co., Ltd`.  However, we observed that during our investigation it had been already revoked. 
 
-![img-description](/assets/img/2024-11-11-JavaSquid-research/fs-analysis-1.png){: width="40%" } ![img-description](/assets/img/2024-11-11-JavaSquid-research/fs-analysis-2.png){: width="40%" }
+![img-description](/assets/img/2024-11-11-JavaSquid-research/fs-analysis-1.png){: width="40%" .side-by-side} ![img-description](/assets/img/2024-11-11-JavaSquid-research/fs-analysis-2.png){: width="40%" .side-by-side}
 
           
 
