@@ -29,34 +29,26 @@ Interestingly, our OSINT research indicated that the C2 IP address was previousl
 
 The initial malware sample had a valid digital signature by the time we first analyzed it (November 9th, 2024), issued by a Chinese company `Taigu Fulong Electronic Tech Co., Ltd`.  However, we observed that during our investigation it had been already revoked. 
 
-![img-description](/assets/img/2024-11-11-JavaSquid-research/fs-analysis-1.png){: width="40%" .side-by-side} ![img-description](/assets/img/2024-11-11-JavaSquid-research/fs-analysis-2.png){: width="40%" .side-by-side}
-
-          
-
+| | |
+| --- | ----------- |
+![img-description](/assets/img/2024-11-11-JavaSquid-research/fs-analysis-1.png)  |  ![img-description](/assets/img/2024-11-11-JavaSquid-research/fs-analysis-2.png)
  
+While researching similar samples using our Sandbox hunting engine, we found a set of samples of the same family using the same likely stolen digital certificate, but also two new sets of samples. One of the sets did not have any digital signature while the other used a different digital certificate. All samples followed the same patterns and techniques of pretending to be some legitimate utility tool based on their different given names (`ai_Generation.exe`, `sweethome3d.exe`, `Installer_capcut_pro_x64.exe`...). 
 
-While researching similar samples using our Sandbox hunting engine, we found a set of samples of the same family using the same likely stolen digital certificate, but also two new sets of samples. One of the sets did not have any digital signature while the other used a different digital certificate. All samples followed the same patterns and techniques of pretending to be some legitimate utility tool based on their different given names (ai_Generation.exe, sweethome3d.exe, Installer_capcut_pro_x64.exe...). 
-
- 
- 
+![img-description](/assets/img/2024-11-11-JavaSquid-research/hits.png)
 
 Based on our findings, this campaign started around mid-July and is currently ongoing as we keep observing new samples of the family as recently as the last week of October 2024. Additionally, while the certificate from the initial sample was revoked during our investigation, the other discovered certificate from the different set is still valid and was issued in early September, potentially indicating that the issuer may be compromised, and they were not aware until we contacted them reporting about their certificate being used in malware. 
 
-  
-
-Understanding the Malware
+# Understanding the Malware
 
 While Filescan.io flags many capabilities of the original PE (Report: https://www.filescan.io/uploads/672231bb2734cb737d901c74/reports/e5b27d3e-0d46-44fc-9e11-9ca7ce03319b) and its later stages as explained ahead, at the time of this writing, the initial malware sample remains fully undetected by most AV vendors 
 
- 
- (Source: https://www.virustotal.com/gui/file/999abd365022c5d83dd2db4c0739511a7ac38bcd9e3aa19056d62d3f5c29ca30/detection )
+![img-description](/assets/img/2024-11-11-JavaSquid-research/vt.png)
+_https://www.virustotal.com/gui/file/999abd365022c5d83dd2db4c0739511a7ac38bcd9e3aa19056d62d3f5c29ca30/detection_
 
- 
+The PE is compiled JavaScript malware, using the [pkg tool](https://github.com/vercel/pkg) to turn the JavaScript code into a Windows PE. Compiled JavaScript appears to be on the rise within the threat landscape, as recently reported by the [other researchers](https://research.checkpoint.com/2024/exploring-compiled-v8-javascript-usage-in-malware/). The mentioned tool packages a JavaScript payload into a Windows PE by embedding a Node JS/V8 interpreter with the option of compiling the code into V8 bytecode, hence embedding into the PE either the plaintext code or a JavaScript Compiled bytecode. The plaintext version extraction is trivial in most cases, though, Filescan.io can extract the compiled code as a JSC (JavaScript Compiled file) and disassemble for later further analysis. 
 
-The PE is compiled JavaScript malware, using the pkg tool to turn the JavaScript code into a Windows PE. Compiled JavaScript appears to be on the rise within the threat landscape, as recently reported by the other researchers. The mentioned tool packages a JavaScript payload into a Windows PE by embedding a Node JS/V8 interpreter with the option of compiling the code into V8 bytecode, hence embedding into the PE either the plaintext code or a JavaScript Compiled bytecode. The plaintext version extraction is trivial in most cases, though, Filescan.io can extract the compiled code as a JSC (JavaScript Compiled file) and disassemble for later further analysis. 
-
- 
- 
+![img-description](/assets/img/2024-11-11-JavaSquid-research/extracted.png) 
 
 The JavaScript payload holds the relevant payload base64 encoded, decodes it, and executes it using the eval function. This decoded payload starts by running a quick RAM size check, likely to avoid executing on analysis environments. While many traditional sandboxes would not pass through this check, Filescan.io performs deeper analysis of all the JavaScript code, allowing the trigger of relevant indicators. 
 
