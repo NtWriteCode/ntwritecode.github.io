@@ -6,17 +6,16 @@ tags: [javascript, javasquid, malware, research, malwareresearch, apt, cybersecu
 description: OPSWAT discovered JavaSquid, a new malware family using fake AI software to infect systems. The campaign, ongoing since mid-July 2024, uses evasive JavaScript techniques and links to previous attacks with stolen digital certificates from Chinese companies. Insights gained have enhanced OPSWAT's MetaDefender Sandbox capabilities.
 ---
 
-Executive Summary 
+# Executive Summary 
 Filescan.io's Threat Research Team has identified a wide infection campaign, likely with financial motivation, using fake AI software as a lure for downloading a newly discovered malware family in which we’ve dubbed “JavaSquid” namely for its multiple evasive/slipery JavaScript parts.   
   
 Based on our monitoring thanks to Filescan.io's capabilities, we’ve assessed that the campaign remains ongoing and that it started around mid-July of 2024. The threat actors associated with this campaign have conducted previous successful attacks where they stole digital certificates from different Chinese companies.
 Besides uncovering a new malware family and a live campaign, the findings of this research and monitoring have allowed the improvement of our Sandbox’s feature/indicator capabilities. Additionally, our investigation provides enough information to implement a comprehensive instance of a Diamond Model of Intrusion Analysis along with the provided IOCs (indicators of compromise) and specific MITRE ATT&CK mappings from Filescan.io's reports.
-Filescan.io Report: https://www.filescan.io/uploads/672231bb2734cb737d901c74/reports/e5b27d3e-0d46-44fc-9e11-9ca7ce03319b 
+[You can find Filescan.io report here.](https://www.filescan.io/uploads/672231bb2734cb737d901c74/reports/e5b27d3e-0d46-44fc-9e11-9ca7ce03319b) 
 
+# Uncovering the Campaign 
 
-Uncovering the Campaign 
-
-Filescan.io's Threat Research Team has uncovered an infection campaign that uses AI software as a lure but does not actually utilize AI in its attacks or malware. The investigation started when we observed the suspicious domain, https[://]my-profai[.]com. While the domain seems to be already taken down, it was registered on 2024-09-05, meaning that the campaign was very recently launched and is likely still ongoing, based on the information gathered during our investigation. 
+Filescan.io's Threat Research Team has uncovered an infection campaign that uses AI software as a lure but does not actually utilize AI in its attacks or malware. The investigation started when we observed the suspicious domain, `https[://]my-profai[.]com`. While the domain seems to be already taken down, it was registered on 2024-09-05, meaning that the campaign was very recently launched and is likely still ongoing, based on the information gathered during our investigation. 
 
 According to the title of their website “Epivaravomw: Bringing Your Static Images to Life” it seems that they would offer an AI-based tool to add motion to pictures which points to a potential watering hole attack, which also leverages malvertising on other websites to lead the users to download the malware. However, it is likely an impersonation of https://proai.co, as the Windows executable available for download is named ProAI.exe, which is the malware sample we will analyze ahead. 
 
@@ -28,9 +27,9 @@ The watering hole domain used to trick the victims and serve the malware is prot
 
 Interestingly, our OSINT research indicated that the C2 IP address was previously related to Lumma and Poseidon stealers. While the Lumma stealer was reportedly based on the old Mars stealer, Poseidon is a very recently discovered malware family written in AppleScript, therefore targeting iOS environments. The fact that this novel family is written in JavaScript could indicate that the threat actor behind the activity could be switching to a scripting language that could be used in different environments. Another aspect to highlight is the fact that the IP address belongs to a Chinese ISP (Chang Way Technologies Co. Limited) while it the host is geolocated within the Russian Federation. 
 
-The initial malware sample had a valid digital signature by the time we first analyzed it (November 9th, 2024), issued by a Chinese company "Taigu Fulong Electronic Tech Co., Ltd".  However, we observed that during our investigation it had been already revoked. 
+The initial malware sample had a valid digital signature by the time we first analyzed it (November 9th, 2024), issued by a Chinese company `Taigu Fulong Electronic Tech Co., Ltd`.  However, we observed that during our investigation it had been already revoked. 
 
- 
+![img-description](/assets/img/2024-11-11-JavaSquid-research/fs-analysis-1.png){: width="40%" } ![img-description](/assets/img/2024-11-11-JavaSquid-research/fs-analysis-2.png){: width="40%" }
 
           
 
