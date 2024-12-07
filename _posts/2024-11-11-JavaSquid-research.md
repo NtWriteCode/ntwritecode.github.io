@@ -41,7 +41,7 @@ Based on our findings, this campaign started around mid-July and is currently on
 
 # Understanding the Malware
 
-While Filescan.io flags many capabilities of the original PE (Report: https://www.filescan.io/uploads/672231bb2734cb737d901c74/reports/e5b27d3e-0d46-44fc-9e11-9ca7ce03319b) and its later stages as explained ahead, at the time of this writing, the initial malware sample remains fully undetected by most AV vendors
+While Filescan.io flags many capabilities of the original PE ([Find the report here!](https://www.filescan.io/uploads/672231bb2734cb737d901c74/reports/e5b27d3e-0d46-44fc-9e11-9ca7ce03319b)) and its later stages as explained ahead, at the time of this writing, the initial malware sample remains fully undetected by most AV vendors
 
 ![img-description](/assets/img/2024-11-11-JavaSquid-research/vt.png)
 _https://www.virustotal.com/gui/file/999abd365022c5d83dd2db4c0739511a7ac38bcd9e3aa19056d62d3f5c29ca30/detection_
@@ -68,7 +68,7 @@ Interestingly, the IV and AES keys are obtained from the response headers of the
 
 This newly decrypted module is highly obfuscated and brings many more functionality to the sample by adding the code of additional libraries, mainly to deal with file operations and zip functionalities using the `adm` module. Additionally, it drops different files in different subdirectories `%appdata%\Local`, using random naming.
 
-One of the dropped files is a PowerShell script named as run.ps1, which contains the code to install the NodeJS MSI installer for later launching the final JavaScript payload using the installed NodeJS, instead of the initial compiled JavaScript payload.
+One of the dropped files is a PowerShell script named as `run.ps1`, which contains the code to install the NodeJS MSI installer for later launching the final JavaScript payload using the installed NodeJS, instead of the initial compiled JavaScript payload.
 
 ![img-description](/assets/img/2024-11-11-JavaSquid-research/run_v1.png)
 
@@ -101,7 +101,7 @@ The initial served payload implements its communication with C2 through the webs
 
 ## File hashes:
 
-```text
+```IOC
 999abd365022c5d83dd2db4c0739511a7ac38bcd9e3aa19056d62d3f5c29ca30
 aec44665395d4ae7064ea08d6d03b729464715d2169c629f3e3215d61c1299ea
 b216880a67fc2e502ae94928aead75ef870fbb7ba142f7eda355d9ed6e72146d
@@ -111,7 +111,7 @@ b216880a67fc2e502ae94928aead75ef870fbb7ba142f7eda355d9ed6e72146d
 
 ```text
 chackopanikulamskykat@gmail.com
-kendalllopez149@gmail.com```
+kendalllopez149@gmail.com
 ```
 
 ## IP address:
@@ -124,7 +124,7 @@ kendalllopez149@gmail.com```
 
 ```text
 ambisecperu[.]com
-angelswipe [.]com
+angelswipe[.]com
 nenkinseido[.]com
 ```
 
@@ -154,6 +154,7 @@ BB:F9:86:55:F4:D4:ED:39:6F:BC:A9:5F:4A:F8:ED:4E:B0:19:50:A9
 
 ### Different domains pointing to the same IP address, which have not been used by the analyzed samples, but also seem to be related for faking AI-related websites:
 
+```text
 agattiairport[.]com
 aimodel[.]itez-kz[.]com
 akool[.]cleartrip[.]voyage
